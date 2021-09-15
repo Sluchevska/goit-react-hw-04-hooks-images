@@ -9,7 +9,7 @@ const ImageGallery = ({ pictures, onSelect }) => {
           key={id}
           image={picture}
           onClick={() => onSelect(picture)}
-        ></ImageGalleryItem>
+        />
       ))}
     </ul>
   );

@@ -1,13 +1,14 @@
 import { Component } from 'react';
-import axios from 'axios';
+
 import toast, { Toaster } from 'react-hot-toast';
 import SearchBar from '../SearchBar/SearchBar';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
+import { fetchPics } from '../services/api';
 import '../image-finder/styles.css';
-import './App.css';
+import './App.module.css';
 
 export default class App extends Component {
   state = {
@@ -19,13 +20,7 @@ export default class App extends Component {
     showModal: false,
   };
 
-  fetchPics = async (pictureName, page) => {
-    const keyApi = '22597300-51a9bfff07e627635843c3062';
-    const response = await axios.get(
-      `https://pixabay.com/api/?q=${pictureName}&page=${page}&key=${keyApi}&image_type=photo&orientation=horizontal&per_page=12`,
-    );
-    return response.data.hits;
-  };
+  
 
   async componentDidUpdate(prevProps, prevState) {
     const nextSearch = this.state.pictureName;
@@ -33,8 +28,11 @@ export default class App extends Component {
     if (prevState.pictureName !== nextSearch || prevState.page !== nextPage) {
       try {
         this.setState({ reqStatus: 'pending' });
-        const pictures = await this.fetchPics(nextSearch, nextPage);
-        this.setState({ pictures, reqStatus: 'resolved' });
+        const pictures = await fetchPics(nextSearch, nextPage);
+         this.setState(prevState => ({
+        pictures: [...prevState.pictures, ...pictures],
+        reqStatus: 'resolved'
+        }))
         if (nextSearch.trim() === '' || pictures.length === 0) {
           return toast.error(
             `Sorry, but there are no pictures with  ${nextSearch}`,
@@ -73,22 +71,21 @@ export default class App extends Component {
   toggleModal = () => {
     this.setState(state => ({
       showModal: !state.showModal,
+       selectedImg: '',
     }));
-    this.setState({
-      selectedImg: '',
-    });
-  };
+     };
 
   render() {
     const { pictures, reqStatus, selectedImg, showModal } = this.state;
 
-    const showButton = pictures.length >= 1;
+    const showButton = pictures.length >= 12;
 
     return (
       <div>
         <Toaster />
         <SearchBar onSearch={this.handleFormSubmit} />
         <ImageGallery pictures={pictures} onSelect={this.handleSelectedImage} />
+          {reqStatus === 'pending' && <Loader />}
         {showButton && <Button onClick={this.loadMoreBtnClick} />}
         {showModal && (
           <Modal
@@ -97,7 +94,7 @@ export default class App extends Component {
             onClose={this.toggleModal}
           />
         )}
-         {reqStatus === 'pending' && <Loader />}
+       
       </div>
     );
   }
