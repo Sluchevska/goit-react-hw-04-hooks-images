@@ -23,19 +23,26 @@ export default function App() {
     if (!pictureName) {
       return;
     }
-    setReqStatus('pending');
+    
     async function getFetchImg() {
+       setReqStatus('pending');
       try {
-        setReqStatus('pending');
-        const picturesAPI = await fetchPics(pictureName, page);
+       
+        const pictures = await fetchPics(pictureName, page);
         setPictures(prevPictures => [...prevPictures, ...pictureName]);
         setReqStatus('resolved');
+          page > 1 &&
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
 
-        if (pictureName.trim() === '' || picturesAPI.length === 0) {
+        if (pictureName.trim() === '' || pictures.length === 0) {
           return toast.error(
             `Sorry, but there are no pictures with  ${pictureName}`,
           );
         }
+       
       } catch (error) {
         setReqStatus('rejected');
         setError(error);
@@ -43,11 +50,7 @@ export default function App() {
       }
     }
 
-    page > 1 &&
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
+   
     getFetchImg();
   }, [page, pictureName]);
 
@@ -77,7 +80,7 @@ export default function App() {
       {showButton && <Button onClick={loadMoreBtnClick} />}
       {showModal && (
         <Modal
-          src={selectedImg.largeImageURL}
+          src={selectedImg}
           alt={selectedImg.tags}
           onClose={toggleModal}
         />
