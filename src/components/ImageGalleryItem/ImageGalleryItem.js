@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export default function ImageGalleryItem({  onClick, webformatURL, tags }) {
-console.log(webformatURL)
+
   return (
     <li className="ImageGalleryItem">
       <img

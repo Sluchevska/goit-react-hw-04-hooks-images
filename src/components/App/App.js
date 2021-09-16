@@ -65,7 +65,7 @@ export default function App() {
     setSelectedImg(largeImageUrl);
   };
   const loadMoreBtnClick = () => {
-    setPage(page + 1);
+    setPage(prevPage => prevPage+ 1);
   };
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -73,7 +73,7 @@ export default function App() {
   };
 
   const showButton = pictures.length >= 12;
-console.log(pictures)
+
   return (
     <div>
       <Toaster />
