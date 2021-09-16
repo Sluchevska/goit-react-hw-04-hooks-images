@@ -39,6 +39,6 @@ export default class Modal extends Component {
 }
 
 Modal.propTypes = {
-  src: PropTypes.array.isRequired,
+  src: PropTypes.string.isRequired,
   alt: PropTypes.string,
 };
