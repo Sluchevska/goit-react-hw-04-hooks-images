@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ pictures, onSelect }) => {
-
   return (
     <ul className="ImageGallery">
-      {pictures.map(({id, webformatURL, largeImageURL, tags}) => (
+      {pictures.map(({ id, webformatURL, largeImageURL, tags }) => (
         <ImageGalleryItem
           key={id}
-         webformatURL={webformatURL}
-         tags={tags}
+          webformatURL={webformatURL}
+          tags={tags}
           onClick={() => onSelect(largeImageURL)}
         />
       ))}
@@ -22,7 +21,6 @@ export default ImageGallery;
 ImageGallery.propTypes = {
   pictures: PropTypes.arrayOf(
     PropTypes.shape({
-      
       id: PropTypes.number.isRequired,
     }),
   ),

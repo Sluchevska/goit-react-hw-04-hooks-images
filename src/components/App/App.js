@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import toast, { Toaster } from 'react-hot-toast';
 import SearchBar from '../SearchBar/SearchBar';
@@ -18,35 +18,31 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
-  const [alt, setAlt]=useState(null)
+  const [alt, setAlt] = useState(null);
 
   useEffect(() => {
     if (!pictureName) {
       return;
     }
-    
+
     async function getFetchImg() {
-       setReqStatus('pending');
+      setReqStatus('pending');
       try {
-       
         const pictures = await fetchPics(pictureName, page);
         if (pictureName.trim() === '' || pictures.length === 0) {
           return toast.error(
             `Sorry, but there are no pictures with  ${pictureName}`,
           );
         }
-       
+
         setPictures(prevPictures => [...prevPictures, ...pictures]);
         setReqStatus('resolved');
 
-          page > 1 &&
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-
-        
-       
+        page > 1 &&
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+          });
       } catch (error) {
         setReqStatus('rejected');
         setError(error);
@@ -54,33 +50,32 @@ export default function App() {
       }
     }
 
-   
     getFetchImg();
   }, [page, pictureName]);
 
   const handleFormSubmit = pictureName => {
-    resetSearch()
+    resetSearch();
     setPictureName(pictureName);
   };
   const handleSelectedImage = (largeImageUrl, tags) => {
     setShowModal(!showModal);
     setSelectedImg(largeImageUrl);
-    setAlt(tags)
+    setAlt(tags);
   };
   const loadMoreBtnClick = () => {
-    setPage(prevPage => prevPage+ 1);
+    setPage(prevPage => prevPage + 1);
   };
   const toggleModal = () => {
     setShowModal(!showModal);
     setSelectedImg('');
   };
   const resetSearch = () => {
-    setPage(1)
-    setPictureName('')
-    setPictures([])
-    setSelectedImg(null)
-    setReqStatus('idle')
-  }
+    setPage(1);
+    setPictureName('');
+    setPictures([]);
+    setSelectedImg(null);
+    setReqStatus('idle');
+  };
 
   const showButton = pictures.length >= 12;
 
@@ -92,11 +87,7 @@ export default function App() {
       {reqStatus === 'pending' && <Loader />}
       {showButton && <Button onClick={loadMoreBtnClick} />}
       {showModal && (
-        <Modal
-          src={selectedImg}
-          tags={alt}
-          onClose={toggleModal}
-        />
+        <Modal src={selectedImg} tags={alt} onClose={toggleModal} />
       )}
     </div>
   );
