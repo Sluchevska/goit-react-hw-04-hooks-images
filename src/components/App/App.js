@@ -23,9 +23,8 @@ export default function App() {
     if (!pictureName) {
       return;
     }
-
+    setReqStatus('pending');
     async function getFetchImg() {
-      setReqStatus('pending');
       try {
         const pictures = await fetchPics(pictureName, page);
         if (pictureName.trim() === '' || pictures.length === 0) {
