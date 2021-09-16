@@ -58,6 +58,7 @@ export default function App() {
   }, [page, pictureName]);
 
   const handleFormSubmit = pictureName => {
+    resetSearch()
     setPictureName(pictureName);
   };
   const handleSelectedImage = largeImageUrl => {
@@ -71,6 +72,13 @@ export default function App() {
     setShowModal(!showModal);
     setSelectedImg('');
   };
+  const resetSearch = () => {
+    setPage(1)
+    setPictureName('')
+    setPictures([])
+    setSelectedImg(null)
+    setReqStatus('idle')
+  }
 
   const showButton = pictures.length >= 12;
 
@@ -91,91 +99,3 @@ export default function App() {
     </div>
   );
 }
-
-// export default class App extends Component {
-//   state = {
-//     pictureName: '',
-//     pictures: [],
-//     selectedImg: null,
-//     reqStatus: 'idle',
-//     page: 1,
-//     showModal: false,
-//   };
-
-//   async componentDidUpdate(prevProps, prevState) {
-//     const nextSearch = this.state.pictureName;
-//     const nextPage = this.state.page;
-//     if (prevState.pictureName !== nextSearch || prevState.page !== nextPage) {
-//       try {
-//         this.setState({ reqStatus: 'pending' });
-//         const pictures = await fetchPics(nextSearch, nextPage);
-//          this.setState(prevState => ({
-//         pictures: [...prevState.pictures, ...pictures],
-//         reqStatus: 'resolved'
-//         }))
-//         if (nextSearch.trim() === '' || pictures.length === 0) {
-//           return toast.error(
-//             `Sorry, but there are no pictures with  ${nextSearch}`,
-//           );
-//         }
-//       } catch (error) {
-//         this.setState({ reqStatus: 'rejected' });
-//         toast.error('Something went wrong');
-//       }
-
-//       this.state.page > 1 &&
-//         window.scrollTo({
-//           top: document.documentElement.scrollHeight,
-//           behavior: 'smooth',
-//         });
-//     }
-//   }
-
-//   handleFormSubmit = pictureName => {
-//     this.setState({ pictureName });
-//   };
-
-//   loadMoreBtnClick = () => {
-//     this.setState(prevState => ({
-//       page: prevState.page + 1,
-//     }));
-//   };
-
-//   handleSelectedImage = largeImageUrl => {
-//     this.setState(prevState => ({
-//       showModal: !prevState.showModal,
-//       selectedImg: largeImageUrl,
-//     }));
-//   };
-
-//   toggleModal = () => {
-//     this.setState(state => ({
-//       showModal: !state.showModal,
-//        selectedImg: '',
-//     }));
-//      };
-
-//   render() {
-//     const { pictures, reqStatus, selectedImg, showModal } = this.state;
-
-//     const showButton = pictures.length >= 12;
-
-//     return (
-//       <div>
-//         <Toaster />
-//         <SearchBar onSearch={this.handleFormSubmit} />
-//         <ImageGallery pictures={pictures} onSelect={this.handleSelectedImage} />
-//           {reqStatus === 'pending' && <Loader />}
-//         {showButton && <Button onClick={this.loadMoreBtnClick} />}
-//         {showModal && (
-//           <Modal
-//             src={selectedImg.largeImageURL}
-//             alt={selectedImg.tags}
-//             onClose={this.toggleModal}
-//           />
-//         )}
-
-//       </div>
-//     );
-//   }
-// }
