@@ -29,6 +29,7 @@ export default function App() {
       try {
        
         const pictures = await fetchPics(pictureName, page);
+       
         setPictures(prevPictures => [...prevPictures, ...pictureName]);
         setReqStatus('resolved');
           page > 1 &&
@@ -81,7 +82,7 @@ export default function App() {
       {showModal && (
         <Modal
           src={selectedImg}
-          alt={selectedImg.tags}
+          
           onClose={toggleModal}
         />
       )}

@@ -4,11 +4,12 @@ import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 const ImageGallery = ({ pictures, onSelect }) => {
   return (
     <ul className="ImageGallery">
-      {pictures.map((picture, id) => (
+      {pictures.map((id, webformatURL, largeImageURL, tags) => (
         <ImageGalleryItem
           key={id}
-          image={picture}
-          onClick={() => onSelect(picture)}
+         webformatURL={webformatURL}
+         tags={tags}
+          onClick={() => onSelect(largeImageURL)}
         />
       ))}
     </ul>
@@ -17,12 +18,12 @@ const ImageGallery = ({ pictures, onSelect }) => {
 
 export default ImageGallery;
 
-ImageGallery.propTypes = {
-  pictures: PropTypes.arrayOf(
-    PropTypes.shape({
-     
-      id: PropTypes.number.isRequired,
-    }),
-  ),
-  onSelect: PropTypes.func.isRequired,
-};
+// ImageGallery.propTypes = {
+//   pictures: PropTypes.arrayOf(
+//     PropTypes.shape({
+      
+//       id: PropTypes.number.isRequired,
+//     }),
+//   ),
+//   onSelect: PropTypes.func.isRequired,
+// };
