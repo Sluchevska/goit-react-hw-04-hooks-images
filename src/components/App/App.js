@@ -18,6 +18,7 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
+  const [alt, setAlt]=useState(null)
 
   useEffect(() => {
     if (!pictureName) {
@@ -61,9 +62,10 @@ export default function App() {
     resetSearch()
     setPictureName(pictureName);
   };
-  const handleSelectedImage = largeImageUrl => {
+  const handleSelectedImage = (largeImageUrl, tags) => {
     setShowModal(!showModal);
     setSelectedImg(largeImageUrl);
+    setAlt(tags)
   };
   const loadMoreBtnClick = () => {
     setPage(prevPage => prevPage+ 1);
@@ -92,7 +94,7 @@ export default function App() {
       {showModal && (
         <Modal
           src={selectedImg}
-          
+          tags={alt}
           onClose={toggleModal}
         />
       )}
