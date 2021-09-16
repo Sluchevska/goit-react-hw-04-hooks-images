@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function ImageGalleryItem({  onClick, webformatURL, tags }) {
-
+export default function ImageGalleryItem({ onClick, webformatURL, tags }) {
   return (
     <li className="ImageGalleryItem">
       <img
@@ -16,6 +15,6 @@ export default function ImageGalleryItem({  onClick, webformatURL, tags }) {
 
 ImageGalleryItem.propTypes = {
   webformatURL: PropTypes.string.isRequired,
-   tags: PropTypes.string,
+  tags: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };

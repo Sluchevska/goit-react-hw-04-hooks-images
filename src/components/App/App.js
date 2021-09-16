@@ -17,7 +17,6 @@ export default function App() {
   const [reqStatus, setReqStatus] = useState('idle');
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState(null);
   const [alt, setAlt] = useState(null);
 
   useEffect(() => {
@@ -45,7 +44,6 @@ export default function App() {
           });
       } catch (error) {
         setReqStatus('rejected');
-        setError(error);
         toast.error('Something went wrong');
       }
     }
