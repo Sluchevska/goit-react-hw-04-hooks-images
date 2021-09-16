@@ -29,20 +29,22 @@ export default function App() {
       try {
        
         const pictures = await fetchPics(pictureName, page);
+        if (pictureName.trim() === '' || pictures.length === 0) {
+          return toast.error(
+            `Sorry, but there are no pictures with  ${pictureName}`,
+          );
+        }
        
-        setPictures(prevPictures => [...prevPictures, ...pictureName]);
+        setPictures(prevPictures => [...prevPictures, ...pictures]);
         setReqStatus('resolved');
+
           page > 1 &&
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
       });
 
-        if (pictureName.trim() === '' || pictures.length === 0) {
-          return toast.error(
-            `Sorry, but there are no pictures with  ${pictureName}`,
-          );
-        }
+        
        
       } catch (error) {
         setReqStatus('rejected');
@@ -71,7 +73,7 @@ export default function App() {
   };
 
   const showButton = pictures.length >= 12;
-
+console.log(pictures)
   return (
     <div>
       <Toaster />
