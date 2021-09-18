@@ -8,7 +8,6 @@ import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import { fetchPics } from '../services/api';
 import '../image-finder/styles.css';
-import './App.module.css';
 
 export default function App() {
   const [pictureName, setPictureName] = useState('');
@@ -20,9 +19,8 @@ export default function App() {
   const [alt, setAlt] = useState(null);
 
   useEffect(() => {
-    if (!pictureName) {
-      return;
-    }
+    if (!pictureName) return;
+
     setReqStatus('pending');
     async function getFetchImg() {
       try {
